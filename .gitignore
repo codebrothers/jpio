@@ -1,0 +1,14 @@
+/.settings
+/.project
+/.classpath
+/target
+
+/jpio-core/.settings
+/jpio-core/.project
+/jpio-core/.classpath
+/jpio-core/target
+
+/jpio-visualizer/.settings
+/jpio-visualizer/.project
+/jpio-visualizer/.classpath
+/jpio-visualizer/target
