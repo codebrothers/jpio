@@ -16,6 +16,7 @@ public class IOTest {
       JPIO.setPinValue(PIN, true);
       JPIO.setPinValue(PIN, false);
     }
+    
     System.out.println("Took " + (System.currentTimeMillis() - startedAt));
   }
 
