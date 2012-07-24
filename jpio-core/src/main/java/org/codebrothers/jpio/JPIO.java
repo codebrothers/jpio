@@ -19,8 +19,6 @@ import java.nio.IntBuffer;
  */
 public class JPIO {
 
-  private static final int GPIO_PULL_UP_DOWN_REGISTER = 37;
-
   private static IntBuffer GPIO;
 
   private static boolean initialized = false;
@@ -111,7 +109,7 @@ public class JPIO {
     // 1x10&#x2079/(2.5x10&#x2078/150) = 600ns (1000ns will do!)
     //
     // set new up/down value
-    GPIO.put(GPIO_PULL_UP_DOWN_REGISTER, resistor.value);
+    GPIO.put(Resistor.VALUE_REGISTER, resistor.value);
     // provide the required set-up time for the control signal
     delayNs(1000);
     // to clock the control signal into the GPIO pads
@@ -119,7 +117,7 @@ public class JPIO {
     // required hold time for the control signal
     delayNs(1000);
     // take our values out of the registers
-    GPIO.put(GPIO_PULL_UP_DOWN_REGISTER, 0x00);
+    GPIO.put(Resistor.VALUE_REGISTER, 0x00);
     GPIO.put(pin.pullUpDownClockRegister, 0x00);
   }
 

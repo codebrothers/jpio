@@ -25,6 +25,11 @@ public enum Resistor {
    */
   UP(0b10);
 
+  /**
+   * The register which lets us configure a resistor for a pin.
+   */
+  public static final int VALUE_REGISTER = 37;
+
   final int value;
 
   private Resistor(int value) {
