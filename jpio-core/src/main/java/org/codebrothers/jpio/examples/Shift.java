@@ -30,7 +30,7 @@ public class Shift {
     LATCH_PIN.setFunction(Function.OUTPUT);
 
     // Construct the shift port
-    Shift595 shift595 = new Shift595(DATA_PIN, CLOCK_PIN, LATCH_PIN, 8);
+    Shift595 shift595 = new Shift595(DATA_PIN, CLOCK_PIN, LATCH_PIN, 24);
 
     // Random to get us random boolean values
     Random random = new Random();

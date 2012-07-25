@@ -9,7 +9,7 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 /**
- * The peripheral bus interface for the JPIO library.
+ * The core JNI based mapping code for the JPIO library.
  * <p>
  * <strong>Remember:</strong> You must call JPIO.init() before you can use any
  * of the peripheral functions.
@@ -19,10 +19,17 @@ import java.nio.IntBuffer;
  */
 public class JPIO {
 
+  // to prevent multiple instantiations
+  private static boolean initialized = false;
+
+  // The GPIO registers, starting from 0x20200000
   public static IntBuffer GPIO;
+
+  // The clock registers, starting from 0x20101000
   public static IntBuffer CLOCK;
 
-  private static boolean initialized = false;
+  // The PWM registers, starting from 0x2020C000
+  public static IntBuffer PWM;
 
   private JPIO() {
     // cannot be constructed
@@ -37,22 +44,42 @@ public class JPIO {
    * Configures JPIO by getting the JVM direct access to the peripheral bus. The
    * JNI functions bind the required memory regions to ByteBuffers. <p> It might
    * be possible to get this to work with pure java using FileChannel but I've
-   * not had any success yet. <p> Remember that the data structure we are
-   * getting is going to be in little endian byte order. We must make the
-   * ByteBuffer aware of this or the bytes will be mirrored and our IntBuffer
-   * will inherit this!
+   * not had any success yet.
    */
-  public static void init() {
+  public static synchronized void init() {
     if (!initialized) {
-      System.loadLibrary("JPIO");
-      final ByteBuffer buf = mapGPIO();
-      buf.order(ByteOrder.LITTLE_ENDIAN);
-      GPIO = buf.asIntBuffer();
+      // we only attempt to initialize once.
       initialized = true;
+      // load native library
+      System.loadLibrary("JPIO");
+      // try and initialize
+      if (!initialize()) {
+        throw new RuntimeException("Failed to initilize.");
+      }
+      // fetch and wrap as int buffers
+      GPIO = wrapAsIntBuffer(getGPIO());
+      CLOCK = wrapAsIntBuffer(getClock());
+      PWM = wrapAsIntBuffer(getPWM());
     }
   }
 
-  private static native ByteBuffer mapGPIO();
+  /*
+   * Remember that the data structure we are getting is going to be in little
+   * endian byte order. We must make the ByteBuffer aware of this or the bytes
+   * will be mirrored and our IntBuffer will inherit this!
+   */
+  private static IntBuffer wrapAsIntBuffer(ByteBuffer buf) {
+    buf.order(ByteOrder.LITTLE_ENDIAN);
+    return buf.asIntBuffer();
+  }
+
+  private static native boolean initialize();
+
+  private static native ByteBuffer getGPIO();
+
+  private static native ByteBuffer getClock();
+
+  private static native ByteBuffer getPWM();
 
   /**
    * Sets a pin's function using the pin's function register.
