@@ -6,9 +6,9 @@ public enum PWMChannel {
 
   public static final int PWM_CONTROL_REGISTER = 0;
   public static final int PWM_STATUS_REGISTER = 1;
-  
-  public int rangeRegister;
-  public int dataRegister;
+
+  public final int rangeRegister;
+  public final int dataRegister;
 
   private PWMChannel(int rangeRegister, int dataRegister) {
     this.rangeRegister = rangeRegister;
