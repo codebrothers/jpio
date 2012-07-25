@@ -19,7 +19,8 @@ import java.nio.IntBuffer;
  */
 public class JPIO {
 
-  private static IntBuffer GPIO;
+  public static IntBuffer GPIO;
+  public static IntBuffer CLOCK;
 
   private static boolean initialized = false;
 
