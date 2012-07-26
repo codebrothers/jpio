@@ -3,6 +3,8 @@ package org.codebrothers.jpio.gpio;
 import static org.codebrothers.jpio.JPIO.GPIO;
 import static org.codebrothers.jpio.util.DelayUtil.delayNs;
 
+import static org.codebrothers.jpio.util.BitUtils.*;
+
 public class GPIO {
 
   /**
@@ -14,11 +16,7 @@ public class GPIO {
    *          The new function for the pin.
    */
   public static synchronized void setPinFunction(final GPIOPin pin, final Function function) {
-    GPIO.put(pin.functionRegister,
-    /* Clear the bits for the pin, ready for new value */
-    (GPIO.get(pin.functionRegister) & pin.functionMask)
-    /* Set the new value for specified function */
-    | function.values[pin.functionOrdinal]);
+    setMaskedValue(GPIO, pin.functionRegister, pin.functionMask, function.values[pin.functionOrdinal]);
   }
 
   /**
@@ -41,7 +39,7 @@ public class GPIO {
    * @return The value of the pin.
    */
   public static synchronized boolean getPinValue(final GPIOPin pin) {
-    return (GPIO.get(pin.levelRegister) & pin.pinValue) != 0;
+    return isBitSet(GPIO, pin.levelRegister, pin.pinValue);
   }
 
   /**
