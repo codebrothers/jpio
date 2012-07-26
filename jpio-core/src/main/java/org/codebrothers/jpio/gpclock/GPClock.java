@@ -18,25 +18,11 @@ public class GPClock {
 
   private static int DIVISOR_COMPONENT = 0xFFF;
 
-  private static int DIVISOR_DECIMAL_SCALER = DIVISOR_COMPONENT + 1;
+  private static int DIVISOR_FRACTION_SCALER = DIVISOR_COMPONENT + 1;
 
   private static int DIVISOR_MASK = ~(DIVISOR_COMPONENT << 12 | DIVISOR_COMPONENT);
 
   private static Function PIN_CLOCK_FUNCTION = Function.ALT0;
-
-  public static void main(String[] args) {
-    configureDivisor(null, 1.70068359375f);
-  }
-
-  // public static void main(String[] args) {
-  //
-  // System.out.println(Integer.toHexString(0b1111111111111111111111));
-  // float f = 1.70068359375f;
-  // int decimalPart = (int) f;
-  // int fractionalPart = (int) ((f - decimalPart) * 0x1000);
-  // System.out.println(decimalPart);
-  // System.out.println(fractionalPart);
-  // }
 
   /**
    * Sets up the channel provided, with the specified settings
@@ -101,7 +87,7 @@ public class GPClock {
       throw new RuntimeException(MessageFormat.format("Integer part of divisor out of range. Recieved {0}, max {1}.",
           integerPart, DIVISOR_COMPONENT));
     }
-    final int fractionalPart = (int) ((divisor - integerPart) * DIVISOR_DECIMAL_SCALER);
+    final int fractionalPart = (int) ((divisor - integerPart) * DIVISOR_FRACTION_SCALER);
     if (fractionalPart < 0 && fractionalPart > DIVISOR_COMPONENT) {
       throw new RuntimeException(MessageFormat.format(
           "Fractional part of divisor out of range. Recieved {0}, max {1}.", fractionalPart, DIVISOR_COMPONENT));
