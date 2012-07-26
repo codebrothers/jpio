@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.pwm;
 
 /**
  * Settings for the PWM channel's control register.

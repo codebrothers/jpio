@@ -1,9 +1,11 @@
 package org.codebrothers.jpio.examples;
 
-import org.codebrothers.jpio.Function;
+import static org.codebrothers.jpio.util.DelayUtil.delayMs;
+
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.PiPin;
-import org.codebrothers.jpio.Resistor;
+import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.PiPin;
+import org.codebrothers.jpio.gpio.Resistor;
 
 /**
  * Demonstrates reading the value from a pin with an internal pull-up enabled.
@@ -32,7 +34,7 @@ public class InputTest {
     // Output the value of the pin every 200ms
     while (true) {
       System.out.println(PIN.getValue());
-      JPIO.delayMs(200);
+      delayMs(200);
     }
   }
 

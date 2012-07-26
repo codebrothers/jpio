@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.pwm;
 
 public enum PWMChannel {
 

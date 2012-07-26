@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.gpio;
 
 import org.codebrothers.jpio.pin.DigitalPin;
 
@@ -111,12 +111,12 @@ public enum GPIOPin implements DigitalPin {
 
   @Override
   public Boolean getValue() {
-    return JPIO.getPinValue(this);
+    return GPIO.getPinValue(this);
   }
 
   @Override
   public void setValue(Boolean value) {
-    JPIO.setPinValue(this, value);
+    GPIO.setPinValue(this, value);
   }
 
   /**
@@ -127,7 +127,7 @@ public enum GPIOPin implements DigitalPin {
    *          The internal resistor mode to set for the pin.
    */
   public void setPinResistor(Resistor resistor) {
-    JPIO.setPinResistor(this, resistor);
+    GPIO.setPinResistor(this, resistor);
   }
 
   /**
@@ -137,7 +137,7 @@ public enum GPIOPin implements DigitalPin {
    *          The new function for the pin.
    */
   public void setFunction(Function function) {
-    JPIO.setPinFunction(this, function);
+    GPIO.setPinFunction(this, function);
   }
 
 }

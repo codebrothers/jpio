@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.gpclock;
 
 /**
  * Clock mash is controlled by two bits in the control register, bits 9-10.

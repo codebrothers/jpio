@@ -1,10 +1,12 @@
 package org.codebrothers.jpio.examples;
 
+import static org.codebrothers.jpio.util.DelayUtil.delayMs;
+
 import java.util.Random;
 
-import org.codebrothers.jpio.Function;
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.PiPin;
+import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.PiPin;
 import org.codebrothers.jpio.pin.DigitalPin;
 import org.codebrothers.jpio.port.shift595.Shift595;
 
@@ -48,7 +50,7 @@ public class Shift {
         shift595.completeAtomic();
       }
       // wait a bit
-      JPIO.delayMs(500);
+      delayMs(500);
     }
   }
 

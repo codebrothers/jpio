@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.gpio;
 
 /**
  * Function settings for GPIO pins.

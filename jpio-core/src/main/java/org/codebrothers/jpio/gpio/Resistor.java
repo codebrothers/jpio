@@ -1,4 +1,4 @@
-package org.codebrothers.jpio;
+package org.codebrothers.jpio.gpio;
 
 /**
  * Enumeration to control the state of the internal resistors for GPIO pins.
@@ -30,7 +30,7 @@ public enum Resistor {
    */
   public static final int VALUE_REGISTER = 37;
 
-  final int value;
+  public final int value;
 
   private Resistor(int value) {
     this.value = value;

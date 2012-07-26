@@ -1,8 +1,8 @@
 package org.codebrothers.jpio;
 
-import org.codebrothers.jpio.Function;
-import org.codebrothers.jpio.GPIOPin;
-import org.codebrothers.jpio.JPIO;
+import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.GPIO;
+import org.codebrothers.jpio.gpio.GPIOPin;
 
 public class IOTest {
 
@@ -10,11 +10,11 @@ public class IOTest {
 
   public static void main(String[] args) {
     JPIO.init();
-    JPIO.setPinFunction(PIN, Function.OUTPUT);
+    GPIO.setPinFunction(PIN, Function.OUTPUT);
     final long startedAt = System.currentTimeMillis();
     for (int i = 0; i < 10000000; i++) {
-      JPIO.setPinValue(PIN, true);
-      JPIO.setPinValue(PIN, false);
+      GPIO.setPinValue(PIN, true);
+      GPIO.setPinValue(PIN, false);
     }
     
     System.out.println("Took " + (System.currentTimeMillis() - startedAt));

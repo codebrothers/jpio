@@ -1,8 +1,10 @@
 package org.codebrothers.jpio.examples;
 
-import org.codebrothers.jpio.Function;
+import static org.codebrothers.jpio.util.DelayUtil.delayMs;
+
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.PiPin;
+import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.PiPin;
 
 /**
  * The obligatory blink example.
@@ -16,16 +18,16 @@ public class Blink {
   public static void main(String[] args) {
     // Initialize the hardware
     JPIO.init();
-    
+
     // Set pin as output
     LED_PIN.setFunction(Function.OUTPUT);
-    
+
     // Bink forever!
     while (true) {
       LED_PIN.setValue(true);
-      JPIO.delayMs(500);
+      delayMs(500);
       LED_PIN.setValue(false);
-      JPIO.delayMs(500);
+      delayMs(500);
     }
   }
 
