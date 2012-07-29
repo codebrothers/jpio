@@ -57,10 +57,6 @@ public class Clock {
    */
   private static int DIVISOR_COMPONENT = 0xFFF;
 
-  public static void main(String[] args) {
-    System.out.println(Integer.toBinaryString(0xFFF));
-  }
-
   /*
    * Scaler: we can multiply a float's fractional part by this to convert it to
    * it's integer form.
@@ -72,64 +68,106 @@ public class Clock {
    */
   private static Function PIN_CLOCK_FUNCTION = Function.ALT0;
 
+  // /**
+  // * Sets up the channel provided, with the specified settings
+  // */
+  // public static synchronized void configure(ClockChannel channel, ClockSource
+  // source, ClockMash mash, float divisor) {
+  // // configure channel's pin for GPClock
+  // GPIO.setPinFunction(channel.gpioPin, PIN_CLOCK_FUNCTION);
+  // // reset the channel
+  // resetChannel(channel);
+  // // set the source
+  // configureClockSource(channel, source);
+  // // set the mash
+  // configureMash(channel, mash);
+  // // set the divisor
+  // configureDivisor(channel, divisor);
+  // }
+
   /**
-   * Sets up the channel provided, with the specified settings
+   * Enables the channel. The channel's pin will be automatically configured to
+   * output the clock.
+   * 
+   * @param channel
+   *          The channel to disable.
    */
-  public static synchronized void configure(ClockChannel channel, ClockSource source, ClockMash mash, float divisor) {
+  public static void enable(ClockChannel channel) {
     // configure channel's pin for GPClock
     GPIO.setPinFunction(channel.gpioPin, PIN_CLOCK_FUNCTION);
-    // reset the channel
-    resetChannel(channel);
-    // set the source
-    configureClockSource(channel, source);
-    // set the mash
-    configureMash(channel, mash);
-    // set the divisor
-    configureDivisor(channel, divisor);
-  }
-
-  public static void enable(ClockChannel channel) {
+    // enable the channel
     setGPClockMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, ENABLE_VALUE);
   }
 
+  /**
+   * Disables the channel, leaves it's other settings unchanged. The pin will be
+   * reconfigured for input, and will therefore go low.
+   * 
+   * @param channel
+   *          The channel to disable.
+   */
   public static void disable(ClockChannel channel) {
+    // configure channel's pin to input
+    GPIO.setPinFunction(channel.gpioPin, Function.INPUT);
+    // disable the clock
     setGPClockMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, 0);
+    // wait for the channel to go idle
     awaitIdle(channel);
   }
 
   /**
-   * Resets the channel's settings. Waits for the channel to become idle before
-   * returning.
+   * Disables the channel and resets it's settings. Waits for the channel to
+   * become idle before returning.
+   * 
+   * @param channel
+   *          The channel to reset.
    */
-  private static void resetChannel(ClockChannel channel) {
+  public static void resetChannel(ClockChannel channel) {
+    // disable the channel
+    disable(channel);
+    // reset both of the channel's registers
     CLOCK.put(channel.controlRegister, CLOCK_MANAGER_PASSWORD);
     CLOCK.put(channel.dividerRegister, CLOCK_MANAGER_PASSWORD);
-    awaitIdle(channel);
   }
 
-  private static void awaitIdle(ClockChannel channel) {
-    // spin a loop till busy bit goes clear
-    while (isBitSet(CLOCK, channel.controlRegister, BUSY_BIT)) {
-    }
-  }
-
-  private static void configureClockSource(final ClockChannel channel, final ClockSource source) {
+  /**
+   * Configures the channel's clock source as specified.
+   * 
+   * @param channel
+   *          The channel to configure.
+   * @param source
+   *          The clock source to use.
+   */
+  public static void configureSource(final ClockChannel channel, final ClockSource source) {
     setGPClockMaskedValue(CLOCK, channel.controlRegister, ClockSource.SOURCE_MASK, source.value);
   }
 
-  private static void configureMash(final ClockChannel channel, final ClockMash mash) {
+  /**
+   * Configures the channel's MASH setting as specified.
+   * 
+   * @param channel
+   *          The channel to configure.
+   * @param mash
+   *          The mash setting to apply.
+   */
+  public static void configureMash(final ClockChannel channel, final ClockMash mash) {
     setGPClockMaskedValue(CLOCK, channel.controlRegister, ClockMash.MASH_MASK, mash.value);
   }
 
-  /*
-   * Adds the password to the masked value we are inserting. Remember we
-   * neededn't add the password bits to the mask as they always read zero/
+  /**
+   * Configures the channel's divisor, handling the conversion from float to
+   * fixed point value.
+   * 
+   * @param channel
+   *          The channel to configure.
+   * @param divisor
+   *          The divisor to use.
+   * 
+   * @throws IllegalArgumentException
+   *           If the divisor is out of the supported range of the 12 bit
+   *           integer/12 bit fractional fixed point value.
    */
-  private static void setGPClockMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
-    setMaskedValue(buffer, index, mask, CLOCK_MANAGER_PASSWORD | value);
-  }
-
-  private static void configureDivisor(ClockChannel channel, float divisor) {
+  public static void configureDivisor(ClockChannel channel, float divisor) {
     final int integerPart = (int) divisor;
     if (integerPart < 0 && integerPart > DIVISOR_COMPONENT) {
       throw new RuntimeException(MessageFormat.format("Integer part of divisor out of range. Recieved {0}, max {1}.",
@@ -141,6 +179,22 @@ public class Clock {
           "Fractional part of divisor out of range. Recieved {0}, max {1}.", fractionalPart, DIVISOR_COMPONENT));
     }
     CLOCK.put(channel.dividerRegister, CLOCK_MANAGER_PASSWORD | integerPart << 12 | fractionalPart);
+  }
+
+  /*
+   * Spins a loop till busy bit goes clear
+   */
+  private static void awaitIdle(ClockChannel channel) {
+    while (isBitSet(CLOCK, channel.controlRegister, BUSY_BIT)) {
+    }
+  }
+
+  /*
+   * Adds the password to the masked value we are inserting. Remember we
+   * neededn't add the password bits to the mask as they always read zero/
+   */
+  private static void setGPClockMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
+    setMaskedValue(buffer, index, mask, CLOCK_MANAGER_PASSWORD | value);
   }
 
 }

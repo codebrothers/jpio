@@ -55,4 +55,63 @@ public enum ClockChannel {
     this.gpioPin = gpioPin;
   }
 
+  /**
+   * Enables the channel. The channel's pin will be automatically configured to
+   * output the clock.
+   */
+  public void enable() {
+    Clock.enable(this);
+  }
+
+  /**
+   * Disables the channel, leaves it's other settings unchanged. The pin will be
+   * reconfigured for input, and will therefore go low.
+   * 
+   */
+  public void disable() {
+    Clock.disable(this);
+  }
+
+  /**
+   * Disables the channel and resets it's settings. Waits for the channel to
+   * become idle before returning.
+   */
+  public void resetChannel() {
+    Clock.resetChannel(this);
+  }
+
+  /**
+   * Configures the channel's clock source as specified.
+   * 
+   * @param source
+   *          The clock source to use.
+   */
+  public void configureSource(final ClockSource source) {
+    Clock.configureSource(this, source);
+  }
+
+  /**
+   * Configures the channel's MASH setting as specified.
+   * 
+   * @param mash
+   *          The mash setting to apply.
+   */
+  public void configureMash(final ClockMash mash) {
+    Clock.configureMash(this, mash);
+  }
+
+  /**
+   * Configures the channel's divisor, handling the conversion from float to
+   * fixed point value.
+   * 
+   * @param divisor
+   *          The divisor to use.
+   * 
+   * @throws IllegalArgumentException
+   *           If the divisor is out of the supported range of the 12 bit
+   *           integer/12 bit fractional fixed point value.
+   */
+  public void configureDivisor(float divisor) {
+    Clock.configureDivisor(this, divisor);
+  }
 }
