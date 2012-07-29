@@ -63,6 +63,38 @@ public class JPIO {
     }
   }
 
+  public static synchronized void initDebug() {
+    if (!initialized) {
+      // we only attempt to initialize once.
+      initialized = true;
+      // fetch and wrap as int buffers
+      GPIO = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
+      CLOCK = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
+      PWM = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
+    }
+  }
+
+  public static void printGPIO() {
+    printIntBuffer(GPIO);
+  }
+
+  public static void printCLOCK() {
+    printIntBuffer(CLOCK);
+  }
+
+  public static void printPWM() {
+    printIntBuffer(PWM);
+  }
+
+  private static void printIntBuffer(IntBuffer intBuff) {
+    for (int i = 0; i < intBuff.capacity(); i++) {
+      final StringBuilder sb = new StringBuilder(Integer.toBinaryString(intBuff.get(i)));
+      while (sb.length() < 32)
+        sb.insert(0, "0");
+      System.out.println("Offset "+i+":\t" + sb);
+    }
+  }
+
   /*
    * Remember that the data structure we are getting is going to be in little
    * endian byte order. We must make the ByteBuffer aware of this or the bytes
@@ -80,6 +112,5 @@ public class JPIO {
   private static native ByteBuffer getClock();
 
   private static native ByteBuffer getPWM();
-
 
 }

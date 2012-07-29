@@ -1,35 +1,40 @@
 package org.codebrothers.jpio.examples;
 
-import static org.codebrothers.jpio.util.DelayUtil.delayMs;
-
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.gpclock.GPClock;
-import org.codebrothers.jpio.gpclock.GPClockChannel;
-import org.codebrothers.jpio.gpclock.GPClockMash;
-import org.codebrothers.jpio.gpclock.GPClockSource;
+import org.codebrothers.jpio.gpclock.Clock;
+import org.codebrothers.jpio.gpclock.ClockChannel;
+import org.codebrothers.jpio.gpclock.ClockMash;
+import org.codebrothers.jpio.gpclock.ClockSource;
 import org.codebrothers.jpio.gpio.Function;
-import org.codebrothers.jpio.gpio.PiPin;
+import org.codebrothers.jpio.gpio.GPIOPin;
+import org.codebrothers.jpio.util.DelayUtil;
 
 public class GPClk {
   public static void main(String[] args) {
     // Initialize the hardware
     JPIO.init();
-    
-    // Output the value of the pin every 200ms
     while (true) {
-      GPClock.configure(GPClockChannel.CLOCK0, GPClockSource.OSCILLATOR, GPClockMash.INT, 200);
-      GPClock.enable(GPClockChannel.CLOCK0);
+      // set up as oscillator
+      Clock.configure(ClockChannel.CLOCK0, ClockSource.OSCILLATOR, ClockMash.INT, 0xFFF);
+      Clock.enable(ClockChannel.CLOCK0);
       System.out.println("enabled");
-      delayMs(500);
 
-      GPClock.disable(GPClockChannel.CLOCK0);
-      System.out.println("disabled");
-      delayMs(500);
+      System.out.println("Enabled");
+      JPIO.printCLOCK();
+      DelayUtil.delayMs(5000);
 
-      PiPin.PIN7.setFunction(Function.OUTPUT);
-      PiPin.PIN7.setValue(true);
-      System.out.println("no");
-      delayMs(500);
+      System.out.println("Disabling");
+      Clock.disable(ClockChannel.CLOCK0);
+      System.out.println("Disabled");
+      // convert to an output pin and flash
+      GPIOPin pin4 = GPIOPin.PIN4;
+      pin4.setFunction(Function.OUTPUT);
+      for (int i = 0; i < 10; i++) {
+        pin4.setValue(false);
+        DelayUtil.delayMs(100);
+        pin4.setValue(true);
+        DelayUtil.delayMs(100);
+      }
     }
   }
 }
