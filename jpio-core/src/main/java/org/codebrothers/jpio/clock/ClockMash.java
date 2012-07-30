@@ -1,4 +1,4 @@
-package org.codebrothers.jpio.gpclock;
+package org.codebrothers.jpio.clock;
 
 /**
  * MASH noise-shaping, can push the jitter out of the audio band if required.

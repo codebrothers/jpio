@@ -1,8 +1,8 @@
 package org.codebrothers.jpio.examples;
 
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.gpclock.ClockChannel;
-import org.codebrothers.jpio.gpclock.ClockSource;
+import org.codebrothers.jpio.clock.ClockChannel;
+import org.codebrothers.jpio.clock.ClockSource;
 import org.codebrothers.jpio.gpio.Function;
 import org.codebrothers.jpio.gpio.GPIOPin;
 import org.codebrothers.jpio.util.DelayUtil;

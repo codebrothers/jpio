@@ -1,4 +1,4 @@
-package org.codebrothers.jpio.gpclock;
+package org.codebrothers.jpio.clock;
 
 import static org.codebrothers.jpio.JPIO.CLOCK;
 import static org.codebrothers.jpio.util.BitUtils.isBitSet;
@@ -67,23 +67,6 @@ public class Clock {
    * ALT0 assigns a pin to output according to it's appropriate GP clock!
    */
   private static Function PIN_CLOCK_FUNCTION = Function.ALT0;
-
-  // /**
-  // * Sets up the channel provided, with the specified settings
-  // */
-  // public static synchronized void configure(ClockChannel channel, ClockSource
-  // source, ClockMash mash, float divisor) {
-  // // configure channel's pin for GPClock
-  // GPIO.setPinFunction(channel.gpioPin, PIN_CLOCK_FUNCTION);
-  // // reset the channel
-  // resetChannel(channel);
-  // // set the source
-  // configureClockSource(channel, source);
-  // // set the mash
-  // configureMash(channel, mash);
-  // // set the divisor
-  // configureDivisor(channel, divisor);
-  // }
 
   /**
    * Enables the channel. The channel's pin will be automatically configured to

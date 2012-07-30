@@ -1,4 +1,4 @@
-package org.codebrothers.jpio.gpclock;
+package org.codebrothers.jpio.clock;
 
 /**
  * The options for choosing the source for a clock.

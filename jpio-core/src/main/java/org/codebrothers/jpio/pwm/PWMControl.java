@@ -33,8 +33,8 @@ public enum PWMControl {
    * Channel repeat mode
    * 
    * <ul>
-   * <li>Transmission interrupts when FIFO is empty
-   * <li>Last data in FIFO is transmitted repeatedly until FIFO is not empty
+   * <li>0: Transmission interrupts when FIFO is empty
+   * <li>1: Last data in FIFO is transmitted repeatedly until FIFO is not empty
    * </ul>
    */
   REPEAT_LAST(0x04),
@@ -51,7 +51,7 @@ public enum PWMControl {
    * Channel Polarity
    * 
    * <ul>
-   * <li>0 : 0=low 1=high
+   * <li>0: 0=low 1=high
    * <li>1: 1=low 0=high
    * </ul>
    */
@@ -88,10 +88,13 @@ public enum PWMControl {
   MS_ENABLE(0x80);
 
   public final int[] values = new int[2];
+  public final int[] masks = new int[2];
 
   private PWMControl(int value) {
     values[0] = value;
     values[1] = value << 8;
+    masks[0] = ~values[0];
+    masks[1] = ~values[1];
   }
 
 }

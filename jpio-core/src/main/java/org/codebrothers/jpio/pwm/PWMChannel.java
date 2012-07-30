@@ -7,10 +7,12 @@ public enum PWMChannel {
   public static final int PWM_CONTROL_REGISTER = 0;
   public static final int PWM_STATUS_REGISTER = 1;
 
+  public final int ordinal;
   public final int rangeRegister;
   public final int dataRegister;
 
   private PWMChannel(int rangeRegister, int dataRegister) {
+    this.ordinal = ordinal();
     this.rangeRegister = rangeRegister;
     this.dataRegister = dataRegister;
   }

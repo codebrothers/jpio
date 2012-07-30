@@ -1,4 +1,4 @@
-package org.codebrothers.jpio.gpclock;
+package org.codebrothers.jpio.clock;
 
 import org.codebrothers.jpio.gpio.GPIOPin;
 
