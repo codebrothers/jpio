@@ -7,9 +7,6 @@ import static org.codebrothers.jpio.util.BitUtils.setMaskedValue;
 import java.nio.IntBuffer;
 import java.text.MessageFormat;
 
-import org.codebrothers.jpio.gpio.Function;
-import org.codebrothers.jpio.gpio.GPIO;
-
 /**
  * Allows you to control the General Purpose Clock channels on the Raspberry Pi.
  * <p>
@@ -63,11 +60,6 @@ public class Clock {
    */
   private static int DIVISOR_FRACTION_SCALER = DIVISOR_COMPONENT + 1;
 
-  /*
-   * ALT0 assigns a pin to output according to it's appropriate GP clock!
-   */
-  private static Function PIN_CLOCK_FUNCTION = Function.ALT0;
-
   /**
    * Enables the channel. The channel's pin will be automatically configured to
    * output the clock.
@@ -76,8 +68,6 @@ public class Clock {
    *          The channel to disable.
    */
   public static void enable(ClockChannel channel) {
-    // configure channel's pin for GPClock
-    GPIO.setPinFunction(channel.gpioPin, PIN_CLOCK_FUNCTION);
     // enable the channel
     setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, ENABLE_VALUE);
   }
@@ -90,8 +80,6 @@ public class Clock {
    *          The channel to disable.
    */
   public static void disable(ClockChannel channel) {
-    // configure channel's pin to input
-    GPIO.setPinFunction(channel.gpioPin, Function.INPUT);
     // disable the clock
     setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, 0);
     // wait for the channel to go idle

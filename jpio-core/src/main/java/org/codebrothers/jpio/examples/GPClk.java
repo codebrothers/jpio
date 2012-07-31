@@ -1,7 +1,7 @@
 package org.codebrothers.jpio.examples;
 
 import org.codebrothers.jpio.JPIO;
-import org.codebrothers.jpio.clock.ClockChannel;
+import org.codebrothers.jpio.clock.ClockPin;
 import org.codebrothers.jpio.clock.ClockSource;
 import org.codebrothers.jpio.gpio.Function;
 import org.codebrothers.jpio.gpio.GPIOPin;
@@ -9,7 +9,7 @@ import org.codebrothers.jpio.util.DelayUtil;
 
 public class GPClk {
 
-  private static final ClockChannel CHANNEL = ClockChannel.CLOCK0;
+  private static final ClockPin CHANNEL = ClockPin.PIN4;
 
   public static void main(String[] args) {
     // Initialize the hardware

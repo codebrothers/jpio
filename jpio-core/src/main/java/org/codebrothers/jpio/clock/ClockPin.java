@@ -1,5 +1,9 @@
 package org.codebrothers.jpio.clock;
 
+import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.GPIO;
+import org.codebrothers.jpio.gpio.GPIOPin;
+
 /**
  * The three General Purpose Clock channels.
  * <p>
@@ -9,46 +13,25 @@ package org.codebrothers.jpio.clock;
  * 
  * @author Rick Watson
  */
-public enum ClockChannel {
+public enum ClockPin {
 
-  /**
-   * The only channel directly exposed on the Raspberry Pi's GPIO header. This
-   * is exposed on GPIO4 (pin #7 on the header).
-   */
-  CLOCK0(28, 29),
+  PIN4(GPIOPin.PIN4, ClockChannel.CLOCK0),
 
-  /**
-   * Channel on GPIO5. This channel is not exposed on the GPIO header.
-   */
-  CLOCK1(30, 31),
+  PIN5(GPIOPin.PIN5, ClockChannel.CLOCK1),
 
-  /**
-   * Channel on GPIO6. This channel is not exposed on the GPIO header.
-   */
-  CLOCK2(32, 33),
-
-  /**
-   * PWM Channel. Defines the clock for PWM channels.
-   */
-  PWM(40, 41);
+  PIN6(GPIOPin.PIN6, ClockChannel.CLOCK2);
 
   /*
-   * The control register. For controlling source, mash and enable states. Also
-   * used to assert the channel has gone idle after it has been disabled.
+   * ALT0 assigns a pin to output according to it's appropriate GP clock!
    */
-  public final int controlRegister;
+  private static Function PIN_CLOCK_FUNCTION = Function.ALT0;
 
-  /*
-   * The divider register containing two 12 bit components, one integer, one
-   * fractional.
-   * 
-   * Incoming source is divided by this to determining the final frequency.
-   */
-  public final int dividerRegister;
+  public final ClockChannel channel;
+  public final GPIOPin pin;
 
-  private ClockChannel(final int controlRegister, final int dividerRegister) {
-    this.controlRegister = controlRegister;
-    this.dividerRegister = dividerRegister;
+  private ClockPin(GPIOPin pin, ClockChannel channel) {
+    this.channel = channel;
+    this.pin = pin;
   }
 
   /**
@@ -56,16 +39,21 @@ public enum ClockChannel {
    * output the clock.
    */
   public void enable() {
-    Clock.enable(this);
+    // configure channel's pin for GPClock
+    GPIO.setPinFunction(pin, PIN_CLOCK_FUNCTION);
+    // enable the clock channel
+    Clock.enable(channel);
   }
 
   /**
    * Disables the channel, leaves it's other settings unchanged. The pin will be
    * reconfigured for input, and will therefore go low.
-   * 
    */
   public void disable() {
-    Clock.disable(this);
+    // configure channel's pin to input
+    GPIO.setPinFunction(pin, Function.INPUT);
+    // disable the clock channel
+    Clock.disable(channel);
   }
 
   /**
@@ -73,7 +61,7 @@ public enum ClockChannel {
    * become idle before returning.
    */
   public void resetChannel() {
-    Clock.resetChannel(this);
+    Clock.resetChannel(channel);
   }
 
   /**
@@ -83,7 +71,7 @@ public enum ClockChannel {
    *          The clock source to use.
    */
   public void configureSource(final ClockSource source) {
-    Clock.configureSource(this, source);
+    Clock.configureSource(channel, source);
   }
 
   /**
@@ -93,7 +81,7 @@ public enum ClockChannel {
    *          The mash setting to apply.
    */
   public void configureMash(final ClockMash mash) {
-    Clock.configureMash(this, mash);
+    Clock.configureMash(channel, mash);
   }
 
   /**
@@ -108,7 +96,7 @@ public enum ClockChannel {
    *           integer/12 bit fractional fixed point value.
    */
   public void configureDivisor(float divisor) {
-    Clock.configureDivisor(this, divisor);
+    Clock.configureDivisor(channel, divisor);
   }
-  
+
 }
