@@ -111,11 +111,6 @@ public enum PWMControl {
   MS_ENABLE(0x80);
 
   /*
-   * Shared PWM Control Register
-   */
-  public static final int PWM_CONTROL_REGISTER = 0;
-
-  /*
    * Control values for the PWM channels, stored by channel ordinal.
    */
   public final int[] values = new int[2];

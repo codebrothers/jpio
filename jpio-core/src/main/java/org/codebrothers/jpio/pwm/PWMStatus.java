@@ -114,7 +114,6 @@ public enum PWMStatus {
    */
   CHANNEL2_STATE(0x400);
 
-  public static final int PWM_STATUS_REGISTER = 1;
   public final int value;
   public final int mask;
 

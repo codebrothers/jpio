@@ -1,21 +1,31 @@
 package org.codebrothers.jpio.pwm;
 
 import static org.codebrothers.jpio.JPIO.PWM;
-import static org.codebrothers.jpio.util.BitUtils.setMaskedValue;
+import static org.codebrothers.jpio.util.BitUtils.clearMask;
+import static org.codebrothers.jpio.util.BitUtils.isBitSet;
+import static org.codebrothers.jpio.util.BitUtils.setBits;
 
 public class PWM {
 
-  // in clock package? refactor? just one for all channels?
-  public static final int PWM_CLOCK_CONTROL_REGISTER = 40;
-  public static final int PWM_CLOCK_DIVIDER_REGISTER = 41;
+  /*
+   * Shared PWM Control Register
+   */
+  private static final int PWM_CONTROL_REGISTER = 0;
 
-  // TODO really need to pre-shift? Could implement a setBitValue(buf, index,
-  // mask, value) in BitUtils
+  /*
+   * Shared PWM Status Register
+   */
+  public static final int PWM_STATUS_REGISTER = 1;
+
   public void setControl(PWMChannel channel, PWMControl control, boolean value) {
     if (value)
-      setMaskedValue(PWM, PWM_CLOCK_CONTROL_REGISTER, control.masks[channel.ordinal], control.values[channel.ordinal]);
+      setBits(PWM, PWM_CONTROL_REGISTER, control.values[channel.ordinal]);
     else
-      setMaskedValue(PWM, PWM_CLOCK_CONTROL_REGISTER, control.masks[channel.ordinal], 0);
+      clearMask(PWM, PWM_CONTROL_REGISTER, control.masks[channel.ordinal]);
+  }
+
+  public boolean getStatus(PWMChannel channel, PWMStatus pwmStatus) {
+    return isBitSet(PWM, PWM_STATUS_REGISTER, pwmStatus.value);
   }
 
 }

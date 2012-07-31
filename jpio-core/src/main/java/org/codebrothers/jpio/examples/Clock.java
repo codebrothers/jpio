@@ -7,23 +7,23 @@ import org.codebrothers.jpio.gpio.Function;
 import org.codebrothers.jpio.gpio.GPIOPin;
 import org.codebrothers.jpio.util.DelayUtil;
 
-public class GPClk {
+public class Clock {
 
-  private static final ClockPin CHANNEL = ClockPin.PIN4;
+  private static final ClockPin CLOCK_PIN = ClockPin.PIN4;
 
   public static void main(String[] args) {
     // Initialize the hardware
     JPIO.init();
     while (true) {
       // set up as oscillator
-      CHANNEL.configureSource(ClockSource.OSCILLATOR);
-      CHANNEL.configureDivisor(0xFFF);
-      CHANNEL.enable();
+      CLOCK_PIN.configureSource(ClockSource.OSCILLATOR);
+      CLOCK_PIN.configureDivisor(0xFFF);
+      CLOCK_PIN.enable();
       System.out.println("Enabled");
 
       // wait for 5 secs then disable
       DelayUtil.delayMs(5000);
-      CHANNEL.disable();
+      CLOCK_PIN.disable();
       System.out.println("Disabled");
 
       // convert to an output pin and flash

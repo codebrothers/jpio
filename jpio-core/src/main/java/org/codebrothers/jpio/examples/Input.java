@@ -17,7 +17,7 @@ import org.codebrothers.jpio.gpio.Resistor;
  * 
  * @author Rick Watson
  */
-public class InputTest {
+public class Input {
 
   private static final PiPin PIN = PiPin.PIN15;
 

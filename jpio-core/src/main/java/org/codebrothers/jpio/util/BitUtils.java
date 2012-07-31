@@ -5,6 +5,22 @@ import java.nio.IntBuffer;
 public class BitUtils {
 
   /**
+   * Helper method used to clear a group of bits using a mask.
+   * <p>
+   * The mask is assumed to be inverse.
+   * 
+   * @param buffer
+   *          The buffer containing the register we want to edit.
+   * @param index
+   *          The index of the register we are editing.
+   * @param mask
+   *          The inverse mask, used to clear.
+   */
+  public static void clearMask(final IntBuffer buffer, final int index, final int mask) {
+    buffer.put(index, buffer.get(index) & mask);
+  }
+
+  /**
    * Helper method used to set a group of bits in a register using a mask.
    * <p>
    * The mask is assumed to be inverse.
@@ -12,11 +28,12 @@ public class BitUtils {
    * @param buffer
    *          The buffer containing the register we want to edit.
    * @param index
-   *          The index of the register we are editing
+   *          The index of the register we are editing.
    * @param mask
-   *          The inverse mask, used to clear the bits in the new value
+   *          The inverse mask, used to clear.
    * @param value
-   *          The new value to write to the register
+   *          The value to write to the register, any high bits will be set high
+   *          in the register.
    */
   public static void setMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
     buffer.put(index,
@@ -38,6 +55,21 @@ public class BitUtils {
    */
   public static boolean isBitSet(final IntBuffer buffer, final int index, final int bit) {
     return (buffer.get(index) & bit) != 0;
+  }
+
+  /**
+   * Helper method used to set bits in a register.
+   * 
+   * @param buffer
+   *          The buffer containing the register we are updating.
+   * @param index
+   *          The index of the register we are updating.
+   * @param value
+   *          The value to write to the register, any high bits will be set high
+   *          in the register.
+   */
+  public static void setBits(final IntBuffer buffer, final int index, final int value) {
+    buffer.put(index, buffer.get(index) | value);
   }
 
 }
