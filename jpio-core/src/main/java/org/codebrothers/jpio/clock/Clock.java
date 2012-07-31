@@ -79,7 +79,7 @@ public class Clock {
     // configure channel's pin for GPClock
     GPIO.setPinFunction(channel.gpioPin, PIN_CLOCK_FUNCTION);
     // enable the channel
-    setGPClockMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, ENABLE_VALUE);
+    setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, ENABLE_VALUE);
   }
 
   /**
@@ -93,7 +93,7 @@ public class Clock {
     // configure channel's pin to input
     GPIO.setPinFunction(channel.gpioPin, Function.INPUT);
     // disable the clock
-    setGPClockMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, 0);
+    setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ENABLE_MASK, 0);
     // wait for the channel to go idle
     awaitIdle(channel);
   }
@@ -122,7 +122,7 @@ public class Clock {
    *          The clock source to use.
    */
   public static void configureSource(final ClockChannel channel, final ClockSource source) {
-    setGPClockMaskedValue(CLOCK, channel.controlRegister, ClockSource.SOURCE_MASK, source.value);
+    setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ClockSource.SOURCE_MASK, source.value);
   }
 
   /**
@@ -134,7 +134,7 @@ public class Clock {
    *          The mash setting to apply.
    */
   public static void configureMash(final ClockChannel channel, final ClockMash mash) {
-    setGPClockMaskedValue(CLOCK, channel.controlRegister, ClockMash.MASH_MASK, mash.value);
+    setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ClockMash.MASH_MASK, mash.value);
   }
 
   /**
@@ -176,7 +176,7 @@ public class Clock {
    * Adds the password to the masked value we are inserting. Remember we
    * neededn't add the password bits to the mask as they always read zero/
    */
-  private static void setGPClockMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
+  private static void setPasswordProtectedMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
     setMaskedValue(buffer, index, mask, CLOCK_MANAGER_PASSWORD | value);
   }
 

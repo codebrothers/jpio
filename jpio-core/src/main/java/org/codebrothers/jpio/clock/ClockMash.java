@@ -43,7 +43,7 @@ public enum ClockMash {
    */
   public final int value;
 
-  private ClockMash(int value) {
+  private ClockMash(final int value) {
     this.value = value << 9;
   }
 

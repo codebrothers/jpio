@@ -52,7 +52,7 @@ public enum Function {
    */
   public final int[] values = new int[10];
 
-  private Function(int value) {
+  private Function(final int value) {
     for (int i = 0; i < 10; i++) {
       values[i] = value << i * 3;
     }

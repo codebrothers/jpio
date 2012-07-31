@@ -49,7 +49,7 @@ public enum ClockChannel {
    */
   public final GPIOPin gpioPin;
 
-  private ClockChannel(int controlRegister, int dividerRegister, GPIOPin gpioPin) {
+  private ClockChannel(final int controlRegister, final int dividerRegister, final GPIOPin gpioPin) {
     this.controlRegister = controlRegister;
     this.dividerRegister = dividerRegister;
     this.gpioPin = gpioPin;

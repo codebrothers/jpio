@@ -35,7 +35,7 @@ public enum Resistor {
    */
   public final int value;
 
-  private Resistor(int value) {
+  private Resistor(final int value) {
     this.value = value;
   }
 

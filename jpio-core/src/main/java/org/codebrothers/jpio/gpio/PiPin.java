@@ -97,7 +97,7 @@ public enum PiPin implements DigitalPin {
 
   private final GPIOPin pin;
 
-  private PiPin(GPIOPin pin) {
+  private PiPin(final GPIOPin pin) {
     this.pin = pin;
   }
 
