@@ -103,6 +103,8 @@ public class Clock {
 
   /**
    * Configures the channel's clock source as specified.
+   * <p>
+   * Disables the channel!
    * 
    * @param channel
    *          The channel to configure.
@@ -110,11 +112,14 @@ public class Clock {
    *          The clock source to use.
    */
   public static void configureSource(final ClockChannel channel, final ClockSource source) {
+    disable(channel);
     setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ClockSource.SOURCE_MASK, source.value);
   }
 
   /**
    * Configures the channel's MASH setting as specified.
+   * <p>
+   * Disables the channel!
    * 
    * @param channel
    *          The channel to configure.
@@ -122,12 +127,15 @@ public class Clock {
    *          The mash setting to apply.
    */
   public static void configureMash(final ClockChannel channel, final ClockMash mash) {
+    disable(channel);
     setPasswordProtectedMaskedValue(CLOCK, channel.controlRegister, ClockMash.MASH_MASK, mash.value);
   }
 
   /**
    * Configures the channel's divisor, handling the conversion from float to
    * fixed point value.
+   * <p>
+   * Disables the channel!
    * 
    * @param channel
    *          The channel to configure.
@@ -139,6 +147,7 @@ public class Clock {
    *           integer/12 bit fractional fixed point value.
    */
   public static void configureDivisor(ClockChannel channel, float divisor) {
+    disable(channel);
     final int integerPart = (int) divisor;
     if (integerPart < 0 && integerPart > DIVISOR_COMPONENT) {
       throw new RuntimeException(MessageFormat.format("Integer part of divisor out of range. Recieved {0}, max {1}.",
@@ -164,7 +173,8 @@ public class Clock {
    * Adds the password to the masked value we are inserting. Remember we
    * neededn't add the password bits to the mask as they always read zero/
    */
-  private static void setPasswordProtectedMaskedValue(final IntBuffer buffer, final int index, final int mask, final int value) {
+  private static void setPasswordProtectedMaskedValue(final IntBuffer buffer, final int index, final int mask,
+      final int value) {
     setMaskedValue(buffer, index, mask, CLOCK_MANAGER_PASSWORD | value);
   }
 

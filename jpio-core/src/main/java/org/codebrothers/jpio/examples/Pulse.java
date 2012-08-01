@@ -7,7 +7,7 @@ import org.codebrothers.jpio.gpio.Function;
 import org.codebrothers.jpio.gpio.GPIOPin;
 import org.codebrothers.jpio.util.DelayUtil;
 
-public class Clock {
+public class Pulse {
 
   private static final ClockPin CLOCK_PIN = ClockPin.PIN4;
 

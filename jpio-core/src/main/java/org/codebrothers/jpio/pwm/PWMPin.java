@@ -1,6 +1,7 @@
 package org.codebrothers.jpio.pwm;
 
 import org.codebrothers.jpio.gpio.Function;
+import org.codebrothers.jpio.gpio.GPIO;
 import org.codebrothers.jpio.gpio.GPIOPin;
 
 public enum PWMPin {
@@ -87,6 +88,29 @@ public enum PWMPin {
     this.pin = pin;
     this.function = function;
     this.channel = channel;
+  }
+
+  public void setRange(int range) {
+    disable();
+    PWM.setRange(channel, range);
+  }
+
+  public void setData(int data) {
+    PWM.setData(channel, data);
+  }
+
+  public void enable() {
+    // set pin to PWM mode
+    GPIO.setPinFunction(pin, function);
+    // enable PWM
+    PWM.setControl(channel, PWMControl.ENABLE);
+  }
+
+  public void disable() {
+    // configure channel's pin to input
+    GPIO.setPinFunction(pin, Function.INPUT);
+    // disable PWM
+    PWM.clearControl(channel, PWMControl.ENABLE);
   }
 
 }
