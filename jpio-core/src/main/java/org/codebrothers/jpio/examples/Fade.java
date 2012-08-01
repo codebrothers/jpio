@@ -8,9 +8,15 @@ import org.codebrothers.jpio.util.DelayUtil;
 
 public class Fade {
 
+  private static final ClockChannel PWM_CLOCK = ClockChannel.PWM;
+
   private static final PWMPin PIN = PWMPin.PIN18;
 
-  private static final ClockChannel PWM_CLOCK = ClockChannel.PWM;
+  // Range of 0-1024
+  private static final int RANGE = 1024;
+
+  // 19.2MHz / 10
+  private static final int DIVISOR = 10;
 
   public static void main(String[] args) {
     // Initialize the hardware
@@ -18,21 +24,20 @@ public class Fade {
     while (true) {
       // set up the PWM clock and enable
       PWM_CLOCK.configureSource(ClockSource.OSCILLATOR);
-      PWM_CLOCK.configureDivisor(10);
+      PWM_CLOCK.configureDivisor(DIVISOR);
       PWM_CLOCK.enable();
 
       // set channels range and enable the output
-      final int range = 1024;
-      PIN.setRange(range);
+      PIN.setRange(RANGE);
       PIN.enable();
 
       // fade forward and backwards
       while (true) {
-        for (int i = 0; i <= range; i++) {
+        for (int i = 0; i <= RANGE; i++) {
           PIN.setData(i);
           DelayUtil.delayMs(1);
         }
-        for (int i = range; i >= 0; i--) {
+        for (int i = RANGE; i >= 0; i--) {
           PIN.setData(i);
           DelayUtil.delayMs(1);
         }
