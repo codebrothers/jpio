@@ -101,12 +101,6 @@ public enum GPIOPin implements DigitalPin {
     this.pullUpDownClockRegister = 38 + pinOrdinal;
     this.pinValue = 1 << pinValueOffset;
     this.pinMask = ~pinValue;
-
-    // If we later decide to statically store these values, this will help!
-    // System.out.println(MessageFormat.format("  " + this.name() +
-    // "({0}, {1}, {2}, {3}, {4}, {5}),", functionRegister,
-    // setRegister, clearRegister, levelRegister, this.pinRegisterOffset,
-    // functionRegisterOffset));
   }
 
   @Override

@@ -22,7 +22,7 @@ public class Blink {
     // Set pin as output
     LED_PIN.setFunction(Function.OUTPUT);
 
-    // Bink forever!
+    // Bink forever
     while (true) {
       LED_PIN.setValue(true);
       delayMs(500);
