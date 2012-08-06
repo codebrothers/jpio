@@ -58,6 +58,20 @@ public class BitUtils {
   }
 
   /**
+   * Helper method used to check if a particular bit is clear in a register.
+   * 
+   * @param buffer
+   *          The buffer containing the register we want to check.
+   * @param index
+   *          The index of the register we are checking.
+   * @param bit
+   *          The bit to check for, assumed to be pre-shifted.
+   */
+  public static boolean isBitClear(final IntBuffer buffer, final int index, final int bit) {
+    return (buffer.get(index) & bit) == 0;
+  }
+
+  /**
    * Helper method used to set bits in a register.
    * 
    * @param buffer

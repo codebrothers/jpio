@@ -30,6 +30,9 @@ public class JPIO {
 
   // The PWM registers, starting from 0x2020C000
   public static IntBuffer PWM;
+  
+  // The PWM registers, starting from 0x2020C000
+  public static IntBuffer SPI0;
 
   private JPIO() {
     // cannot be constructed
