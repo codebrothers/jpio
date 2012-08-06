@@ -29,7 +29,7 @@ public enum SPIDataMode {
    */
   MODE3(0b11);
 
-  public static int DATA_MODE_MASK = 0b11 << 2;
+  public static int DATA_MODE_MASK = ~(0b11 << 2);
   public final int value;
 
   private SPIDataMode(int mode) {

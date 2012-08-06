@@ -38,6 +38,15 @@ JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getClock
  */
 JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getPWM
   (JNIEnv *, jclass);
+  
+  
+/*
+ * Class:     org_codebrothers_jpio_JPIO
+ * Method:    getSPI0
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getSPI0
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

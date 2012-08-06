@@ -11,6 +11,7 @@
 #define GPIO_BASE               (PERI_BASE + 0x200000)
 #define CLOCK_BASE				(PERI_BASE + 0x101000)
 #define GPIO_PWM				(PERI_BASE + 0x20C000)
+#define SPI0_BASE				(PERI_BASE + 0x204000)
 
 /// Size of memory page on RPi
 #define PAGE_SIZE               (4*1024)
@@ -21,11 +22,12 @@
 static volatile uint32_t *gpio;
 static volatile uint32_t *pwm;
 static volatile uint32_t *clk;
+static volatile uint32_t *spi0;
 
 JNIEXPORT jboolean JNICALL Java_org_codebrothers_jpio_JPIO_initialize(JNIEnv *env, jclass this) {
 
   int fd;
-  uint8_t *gpioMem, *pwmMem, *clkMem;
+  uint8_t *gpioMem, *pwmMem, *clkMem, *spi0Mem;
 
 
   // Open the master /dev/memory device
@@ -83,6 +85,23 @@ JNIEXPORT jboolean JNICALL Java_org_codebrothers_jpio_JPIO_initialize(JNIEnv *en
     fprintf(stderr, "jpio: mmap failed (clk): %s\n", strerror(errno));
     return JNI_FALSE;
   }
+  
+  // SPI0
+
+  if ((spi0Mem = malloc(BLOCK_SIZE + (PAGE_SIZE - 1))) == NULL) {
+    fprintf(stderr, "jpio: spi0Mem malloc failed: %s\n", strerror(errno));
+    return JNI_FALSE;
+  }
+
+  if (((uint32_t) spi0Mem % PAGE_SIZE) != 0) spi0Mem += PAGE_SIZE - ((uint32_t) spi0Mem % PAGE_SIZE);
+
+  spi0 = (uint32_t *) mmap(spi0Mem, BLOCK_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, SPI0_BASE);
+
+  if ((int32_t) spi0 < 0) {
+    fprintf(stderr, "jpio: mmap failed (spi0): %s\n", strerror(errno));
+    return JNI_FALSE;
+  }
+  
   return JNI_TRUE;
 }
 
@@ -101,4 +120,9 @@ JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getClock(JNIEnv *env, 
 JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getPWM(JNIEnv *env, jclass this) {
   // 4 bytes per register, we need 45 registers
   return (*env)->NewDirectByteBuffer(env, (uint32_t *)pwm, 45*4);
+}
+
+JNIEXPORT jobject JNICALL Java_org_codebrothers_jpio_JPIO_getSPI0(JNIEnv *env, jclass this) {
+  // 4 bytes per register, we need 45 registers
+  return (*env)->NewDirectByteBuffer(env, (uint32_t *)spi0, 45*4);
 }

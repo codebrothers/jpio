@@ -30,7 +30,7 @@ public class JPIO {
 
   // The PWM registers, starting from 0x2020C000
   public static IntBuffer PWM;
-  
+
   // The PWM registers, starting from 0x2020C000
   public static IntBuffer SPI0;
 
@@ -63,6 +63,7 @@ public class JPIO {
       GPIO = wrapAsIntBuffer(getGPIO());
       CLOCK = wrapAsIntBuffer(getClock());
       PWM = wrapAsIntBuffer(getPWM());
+      SPI0 = wrapAsIntBuffer(getSPI0());
     }
   }
 
@@ -74,6 +75,7 @@ public class JPIO {
       GPIO = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
       CLOCK = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
       PWM = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
+      SPI0 = wrapAsIntBuffer(ByteBuffer.allocate(45 * 4));
     }
   }
 
@@ -94,7 +96,7 @@ public class JPIO {
       final StringBuilder sb = new StringBuilder(Integer.toBinaryString(intBuff.get(i)));
       while (sb.length() < 32)
         sb.insert(0, "0");
-      System.out.println("Offset "+i+":\t" + sb);
+      System.out.println("Offset " + i + ":\t" + sb);
     }
   }
 
@@ -115,5 +117,7 @@ public class JPIO {
   private static native ByteBuffer getClock();
 
   private static native ByteBuffer getPWM();
+
+  private static native ByteBuffer getSPI0();
 
 }

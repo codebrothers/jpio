@@ -9,12 +9,12 @@ public enum SPIControl {
    * 
    * 1 = writing to the FIFO will write a 32 bit word
    */
-  ENABLE_LONG_DATA(0x02000000), // /< Enable Long data word in Lossi mode if
+  ENABLE_LONG_DATA(0x2000000), // /< Enable Long data word in Lossi mode if
 
   /**
    * Enable DMA mode in Lossi mode
    */
-  ENABLE_DMA(0x01000000),
+  ENABLE_DMA(0x1000000),
 
   /**
    * Chip Select 2 Polarity
@@ -23,7 +23,7 @@ public enum SPIControl {
    * 
    * 1 = Chip select is active high.
    */
-  CS2_POLARITY(0x00800000),
+  CS2_POLARITY(0x800000),
 
   /**
    * Chip Select 1 Polarity
@@ -32,7 +32,7 @@ public enum SPIControl {
    * 
    * 1 = Chip select is active high.
    */
-  CS1_POLARITY(0x00400000),
+  CS1_POLARITY(0x400000),
 
   /**
    * Chip Select 0 Polarity
@@ -41,7 +41,7 @@ public enum SPIControl {
    * 
    * 1 = Chip select is active high.
    */
-  CS0_POLARITY(0x00200000),
+  CS0_POLARITY(0x200000),
 
   /**
    * RXF - RX FIFO Full
@@ -51,7 +51,7 @@ public enum SPIControl {
    * 1 = RX FIFO is full. No further serial data will be sent/ received until
    * data is read from FIFO.
    */
-  RXF(0x00100000),
+  RXF(0x100000),
 
   /**
    * RXR RX FIFO needs Reading
@@ -61,7 +61,7 @@ public enum SPIControl {
    * 1 = RX FIFO is or more full. Cleared by reading sufficient data from the RX
    * FIFO or setting TA to 0.
    */
-  RXR(0x00080000),
+  RXR(0x80000),
 
   /**
    * TXD TX FIFO can accept Data
@@ -70,7 +70,7 @@ public enum SPIControl {
    * 
    * 1 = TX FIFO has space for at least 1 byte.
    */
-  TX_CAN_ACCEPT_DATA(0x00040000),
+  TX_CAN_ACCEPT_DATA(0x40000),
 
   /**
    * RXD RX FIFO contains Data
@@ -79,7 +79,7 @@ public enum SPIControl {
    * 
    * 1 = RX FIFO contains at least 1 byte.
    */
-  RX_CONTAINS_DATA(0x00020000),
+  RX_CONTAINS_DATA(0x20000),
 
   /**
    * Done transfer
@@ -89,7 +89,7 @@ public enum SPIControl {
    * 1 = Transfer is complete. Cleared by writing more data to the TX FIFO or
    * setting TA to 0.
    */
-  TRANSFER_DONE(0x00010000),
+  TRANSFER_DONE(0x10000),
 
   /**
    * LEN LoSSI enable
@@ -100,7 +100,7 @@ public enum SPIControl {
    * 
    * 1 = The serial interface will behave as a LoSSI master.
    */
-  LEN_LOSSI_ENABLE(0x00002000),
+  LEN_LOSSI_ENABLE(0x2000),
 
   /**
    * REN Read Enable
@@ -112,7 +112,7 @@ public enum SPIControl {
    * 
    * 1 = We intend to read from the SPI peripheral.
    */
-  READ_ENABLE(0x00001000),
+  READ_ENABLE(0x1000),
 
   /**
    * ADCS Automatically Deassert Chip Select (DMA Mode)
@@ -123,7 +123,7 @@ public enum SPIControl {
    * 1 = Automatically deassert chip select at the end of a DMA transfer (as
    * determined by SPIDLEN)
    */
-  DEASSERT_CHIP_SELECT(0x00000800),
+  DEASSERT_CHIP_SELECT(0x800),
 
   /**
    * INTR Interrupt on RXR
@@ -132,7 +132,7 @@ public enum SPIControl {
    * 
    * 1 = Generate interrupt when RX FIFO needs reading.
    */
-  INTERRUPT_ON_RXR(0x00000400),
+  INTERRUPT_ON_RXR(0x400),
 
   /**
    * INTD Interrupt on Done
@@ -141,7 +141,7 @@ public enum SPIControl {
    * 
    * 1 = Generate interrupt when DONE.
    */
-  INTERRUPT_ON_DONE(0x00000200),
+  INTERRUPT_ON_DONE(0x200),
 
   /**
    * DMAEN DMA Enable
@@ -151,7 +151,7 @@ public enum SPIControl {
    * 1 = Enable DMA operation. Peripheral generates data requests. These will be
    * taken in four-byte words until the SPIDLEN has been reached.
    */
-  DMA_ENABLE(0x00000100),
+  DMA_ENABLE(0x100),
 
   /**
    * Transfer Active
@@ -164,7 +164,7 @@ public enum SPIControl {
    * Writes to SPIFIFO write data to TX FIFO.TA is cleared by a dma_frame_end
    * pulse from the DMA controller.
    */
-  TRANSFER_ACTIVE(0x00000080),
+  TRANSFER_ACTIVE(0x80),
 
   /**
    * Chip Select Polarity
@@ -173,7 +173,7 @@ public enum SPIControl {
    * 
    * 1 = Chip select lines are active high
    */
-  CHIP_SELECT_POLARITY(0x00000040),
+  CHIP_SELECT_POLARITY(0x40),
 
   /**
    * Clock Polarity
@@ -182,7 +182,7 @@ public enum SPIControl {
    * 
    * 1 = Rest state of clock = high.
    */
-  CLOCK_POLARITY(0x00000008),
+  CLOCK_POLARITY(0x8),
 
   /**
    * Clock Phase
@@ -191,7 +191,7 @@ public enum SPIControl {
    * 
    * 1 = First SCLK transition at beginning of data
    */
-  CLOCK_PHASE(0x00000004);
+  CLOCK_PHASE(0x4);
 
   public final int value;
   public final int mask;
