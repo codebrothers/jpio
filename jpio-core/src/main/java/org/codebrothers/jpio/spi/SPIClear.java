@@ -1,12 +1,31 @@
 package org.codebrothers.jpio.spi;
 
+/**
+ * Constants used for clearing the RX or TX FIFOs.
+ * 
+ * @author Rick Watson
+ */
 public enum SPIClear {
 
-  RX(0b01), TX(0b10), ALL(0b11);
+  /**
+   * Clear the RX FIFO.
+   */
+  RX(0b01),
 
+  /**
+   * Clear the TX FIFO.
+   */
+  TX(0b10),
+
+  /**
+   * Clear both the RX and TX FIFOs.
+   */
+  ALL(0b11);
+
+  /*
+   * Register value for clearing the FIFOs.
+   */
   public final int value;
-
-  public static final int CLEAR_MASK = ~(0b11);
 
   private SPIClear(int value) {
     this.value = value << 4;

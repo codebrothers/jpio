@@ -1,5 +1,10 @@
 package org.codebrothers.jpio.spi;
 
+/**
+ * Constants for controlling which chip is selected on the SPI.
+ * 
+ * @author Rick Watson
+ */
 public enum SPIChipSelect {
 
   /**
@@ -22,8 +27,14 @@ public enum SPIChipSelect {
    */
   NONE(0b11);
 
+  /*
+   * Inverted mask used to clear the bits associated with SPIChipSelect value.
+   */
   public static final int CHIP_SELECT_MASK = ~(0b11);
 
+  /*
+   * Register value choosing which chip to select.
+   */
   public final int value;
 
   private SPIChipSelect(int value) {
