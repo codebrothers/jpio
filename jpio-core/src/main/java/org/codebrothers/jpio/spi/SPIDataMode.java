@@ -4,11 +4,13 @@ package org.codebrothers.jpio.spi;
  * Constants for controlling the Clock Polarity and Clock Phase for SPI.
  * <p>
  * <strong>CPOL</strong> - Controls the resting state for the clock.
+ * <p>
  * <ul>
  * <li>0 = Rest state of clock is low.
  * <li>1 = Rest state of clock is high.
  * </ul>
  * <strong>CPHA</strong> - Controls the clock phase,
+ * <p>
  * <ul>
  * <li>0 = First SCLK transition at middle of data bit.
  * <li>1 = First SCLK transition at beginning of data bit.
@@ -20,6 +22,7 @@ public enum SPIDataMode {
 
   /**
    * Sets the SPI mode as follows <strong>(default)</strong>:
+   * <p>
    * <ul>
    * <li>CPOL = 0
    * <li>CPHA = 0
@@ -29,6 +32,7 @@ public enum SPIDataMode {
 
   /**
    * Sets the SPI mode as follows:
+   * <p>
    * <ul>
    * <li>CPOL = 0
    * <li>CPHA = 1
@@ -38,6 +42,7 @@ public enum SPIDataMode {
 
   /**
    * Sets the SPI mode as follows:
+   * <p>
    * <ul>
    * <li>CPOL = 1
    * <li>CPHA = 0
@@ -47,6 +52,7 @@ public enum SPIDataMode {
 
   /**
    * Sets the SPI mode as follows:
+   * <p>
    * <ul>
    * <li>CPOL = 1
    * <li>CPHA = 1
